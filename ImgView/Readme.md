@@ -8,3 +8,9 @@ the hsl color space is used, rgb value of the pixel is converted to the hsl valu
 
 ## Truecolor
 Some terminal support Truecolor which is 24-bit color system which is the same as that used in jpg no approximation is required the exact color of the pixel can be rendered. To be implemented. 
+
+## BUILD
+```shell
+$ ./build.sh
+$ ./imgview
+```
