@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <math.h>
+#include <string.h>
+#include <stdbool.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include "header/stb_image.h"
 #define TEST_PALETTE 0
-
 int hsl256[][3] = {
     {0, 0, 0},
     {0, 100, 25},
@@ -611,11 +612,14 @@ int find_ansi_index_by_hsl(int h, int s, int l) {
 // TODO: use the truecolors
 
 int main(int argc , char** argv) {
-	// printf("hello, subzero \n\n");
-	if (argc < 2) {
+	
+	
+
+#if TEST_PALETTE == 0
+ 	if (argc < 2) {
 		fprintf(stderr, "[ERROR] no input provided\n");
 		exit(1);	
-	} 
+	}
 	const char *file_path = argv[1];
 	int width, height;
 	uint32_t *pixels = (uint32_t*)stbi_load(file_path, &width, &height, NULL, 4);
@@ -625,7 +629,7 @@ int main(int argc , char** argv) {
 	}
 
 	for (int y=0; y< height; ++y) {
-		for (int x=0; y< width; ++x) {
+		for (int x=0; x< width; ++x) {
 			uint32_t pixel = pixels[y*width + x];
 			int r = (pixel >> 8*0) & 0xff;	
 			int g = (pixel >> 8*1) & 0xff;	
@@ -637,7 +641,7 @@ int main(int argc , char** argv) {
 		printf("\e[0m\n");
 	}
 
-	#ifdef TEST_PALETTE
+#else
 	for (int r=0;r<5;r++) {
 		for (int g=0;g<5;g++) {	
 			for (int b=0;b<5;b++) {
@@ -646,38 +650,10 @@ int main(int argc , char** argv) {
 			printf("\e[0m\n");
 		}
 	}
-	#endif
+#endif
 	
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
