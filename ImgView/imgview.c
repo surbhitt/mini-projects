@@ -610,6 +610,7 @@ int find_ansi_index_by_hsl(int h, int s, int l) {
 // reset \e[0m
 // printf("\0x1b")
 // TODO: use the truecolors
+// TODO: add option to render with rbg or hsl
 
 int main(int argc , char** argv) {
 	
