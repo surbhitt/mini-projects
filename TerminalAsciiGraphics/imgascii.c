@@ -4,7 +4,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "header/stb_image.h"
 
-#define SCALE_DOWN_FAC 10
+#define SCALE_DOWN_FAC 5
 #define PIXEL_R(color) (((color)&0x000000ff)>>(8*0))
 #define PIXEL_G(color) (((color)&0x0000ff00)>>(8*1))
 #define PIXEL_B(color) (((color)&0x00ff0000)>>(8*2))
@@ -131,16 +131,18 @@ int main(int argc, char** argv) {
 	/*if (width%SCALE_DOWN_FAC != 0 && height%SCALE_DOWN_FAC != 0) {
 		fprintf(stderr, "[ERROR] width and height unscalable");
 	}*/
-	// printf("---------the image dimensions are h=%d w=%d\n\n", height, width);
+	// printf("---------the image dimensions are h=%d w=%d\n", height, width);
 	
 	uint32_t *pixels_tr = scaled_down(pixels, height, width);
-
 	int tr_height = height/SCALE_DOWN_FAC;
 	int tr_width = width/SCALE_DOWN_FAC;
+	// printf("------transformed h=%d w=%d total pixels to be rendered %d\n\n",tr_height, tr_width, tr_height*tr_width);
 	for (int y=0 ; y<tr_height; ++y) {
 		for (int x=0; x<tr_width; ++x) {
 			// printf("%dpixel=%d   ",(y*tr_width + x),pixels_tr[y*tr_width + x]);
-			putc(color_to_char(pixels_tr[y*width + x]), stdout);
+			// printf("%d|%d|",(y*tr_width+x),pixels_tr[y*tr_width + x]);
+			putc(color_to_char(pixels_tr[y*tr_width + x]), stdout);
+			putc(color_to_char(pixels_tr[y*tr_width + x]), stdout);
 		}
 		// printf("\n----------------\n");
 		putc('\n',stdout);
