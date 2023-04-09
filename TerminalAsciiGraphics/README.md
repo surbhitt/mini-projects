@@ -17,7 +17,7 @@ The compiled code is given the file moon450x510.jpeg in the /assets directory an
 
 ```shell
 gcc imgascii.c -o img -lm
-./img tmp/moon450x510.jpeg | moon450x510.txt
+./img tmp/moon450x510.jpeg > moon450x510.txt
 ```
 
 
