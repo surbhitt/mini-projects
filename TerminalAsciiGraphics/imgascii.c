@@ -15,12 +15,11 @@
 /****************
 1) Load the image
 2) Scale down the pixelchunk loaded:
-		[.] take chunks of size sdf*sdf
+		[.] take chunks of size 
 		[.] average out the pixels 
 		[.] store value in new array 
 3) Convert the new array values to char
-4)  .,*:o#@
-5) putc
+4) putc
 
 ****************/
 
@@ -29,47 +28,27 @@ uint32_t *scaled_down(uint32_t *pixels, int height, int width) {
 	uint32_t *pixels_tr = malloc((height*width/SCALE_DOWN_FAC*SCALE_DOWN_FAC)*sizeof(uint32_t));
 	memset(pixels_tr,0x00000000,(height*width/SCALE_DOWN_FAC*SCALE_DOWN_FAC)*sizeof(uint32_t));
 
-	#if 0
-	// printing the memory 
-	int width_sc = width/SCALE_DOWN_FAC;
-	int height_sc = height/SCALE_DOWN_FAC;
-	printf("this is the fresh pixeltr created\n");
-	for (int i=0;i<height_sc;++i) {
-		for (int j=0;i<width_sc;++j) {
-			printf("i=%d j=%d val=%d || ", i, j, pixels_tr[i*width_sc + j]);
-		
-		}
-		printf("\n");
-	}
-	#endif
-
+	
 	int i=0,j=0,cnt=0;
 	uint32_t pixel;
 	for (;;) {
 		uint32_t tmpr=0x00, tmpg=0x00, tmpb=0x00, tmpa=0x00;
-		// printf("\n\nchunk %d \n\n", cnt);
 		for (int x=0;x<SCALE_DOWN_FAC;++x) {
 			for (int y=0; y<SCALE_DOWN_FAC; ++y) {
 				pixel = pixels[(i*width + j) + (x*width + y)];
-				// printf("%d || ",(i*width + j) + (x*width + y));
 				tmpr += PIXEL_R(pixel);
 				tmpg += PIXEL_G(pixel);
 				tmpb += PIXEL_B(pixel);
 				tmpa += PIXEL_A(pixel);
 			}
-			// printf("\n");
 		}
-		// printf("transformed tmpr=%d, tmpg=%d, tmpb=%d ", tmpr, tmpg, tmpb);
 
 		uint32_t tr_r = tmpr/(SCALE_DOWN_FAC*SCALE_DOWN_FAC); 
 		uint32_t tr_g = tmpg/(SCALE_DOWN_FAC*SCALE_DOWN_FAC);
 		uint32_t tr_b = tmpb/(SCALE_DOWN_FAC*SCALE_DOWN_FAC);  
 		uint32_t tr_a = tmpa/(SCALE_DOWN_FAC*SCALE_DOWN_FAC);
 		
-		// printf("normalized tr_r=%d, tr_g=%d, tr_b=%d\n\n", tr_r, tr_g, tr_b);
 		*(pixels_tr+cnt) = RECOMP_RGBA(tr_r, tr_g, tr_b, tr_a);
-		// printf("recomposed=%d  and cnt=%d\n",pixels_tr[cnt], cnt);
-		// printf("decomposed r=%d, g=%d , b=%d , a=%d\n",PIXEL_R(pixels_tr[cnt]),PIXEL_G(pixels_tr[cnt]),PIXEL_B(pixels_tr[cnt]),PIXEL_A(pixels_tr[cnt]));
 		cnt++;
 		j += SCALE_DOWN_FAC;
 		if (j>=width) { 
@@ -83,11 +62,8 @@ uint32_t *scaled_down(uint32_t *pixels, int height, int width) {
 		}
 	}
 	return pixels_tr;
-	// return pixels;
 }
 
-
-char table[] = " .,*:o#@";
 size_t n = sizeof(table) - 1;
 
 // changes the pixel to ascii char
@@ -106,16 +82,11 @@ char color_to_char(uint32_t pixel) {
 	return table[bright*n/256];
 }
 
-void usage() {
-	printf("Provide the absolute path for the image");
-}
 
 int main(int argc, char** argv) {
-	//printf("hello, subroza\n");
 	
 	if (argc < 2) {
-		usage();
-		// fprintf(stderr, "[ERROR] no input provided\n");
+		fprintf(stderr, "[ERROR] no input provided\n");
 		exit(1);
 	}
 
@@ -128,23 +99,16 @@ int main(int argc, char** argv) {
 		fprintf(stderr, "[ERROR] file not able to load\n");
 		exit(1);
 	}
-	/*if (width%SCALE_DOWN_FAC != 0 && height%SCALE_DOWN_FAC != 0) {
-		fprintf(stderr, "[ERROR] width and height unscalable");
-	}*/
-	// printf("---------the image dimensions are h=%d w=%d\n", height, width);
-	
+
 	uint32_t *pixels_tr = scaled_down(pixels, height, width);
 	int tr_height = height/SCALE_DOWN_FAC;
 	int tr_width = width/SCALE_DOWN_FAC;
-	// printf("------transformed h=%d w=%d total pixels to be rendered %d\n\n",tr_height, tr_width, tr_height*tr_width);
 	for (int y=0 ; y<tr_height; ++y) {
 		for (int x=0; x<tr_width; ++x) {
-			// printf("%dpixel=%d   ",(y*tr_width + x),pixels_tr[y*tr_width + x]);
-			// printf("%d|%d|",(y*tr_width+x),pixels_tr[y*tr_width + x]);
+			putc(color_to_char(pixels_tr[y*tr_width + x]), stdout);
 			putc(color_to_char(pixels_tr[y*tr_width + x]), stdout);
 			putc(color_to_char(pixels_tr[y*tr_width + x]), stdout);
 		}
-		// printf("\n----------------\n");
 		putc('\n',stdout);
 	}	
 
