@@ -6,8 +6,13 @@
 #include <stdbool.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include "header/stb_image.h"
-#define TEST_PALETTE 0
-int hsl256[][3] = {
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
+#include "header/stb_image_resize.h"
+
+
+// hsl table to be generated using the rgb values
+int hsl256[256][3];
+/*= {
     {0, 0, 0},
     {0, 100, 25},
     {120, 100, 25},
@@ -264,9 +269,10 @@ int hsl256[][3] = {
     {0, 0, 85},
     {0, 0, 89},
     {0, 0, 93},
-};
+};*/
 
-int rgb2566[][3] = {
+// rgb table
+int rgb256[][3] = {
     {0,0,0},
     {128,0,0},
     {0,128,0},
@@ -560,9 +566,9 @@ void rgb_to_hsl(int r, int g, int b, int *h, int *s, int *l) {
 }
 
 int distance_rgb256(int i, int r, int g, int b) {
-	int dr = r - rgb2566[i][0];
-	int dg = g - rgb2566[i][1];
-	int db = b - rgb2566[i][2];
+	int dr = r - rgb256[i][0];
+	int dg = g - rgb256[i][1];
+	int db = b - rgb256[i][2];
 	
 	return dr*dr + dg*dg + db*db;
 }
@@ -612,11 +618,9 @@ int find_ansi_index_by_hsl(int h, int s, int l) {
 // TODO: use the truecolors
 // TODO: add option to render with rbg or hsl
 
-int main(int argc , char** argv) {
-	
-	
 
-#if TEST_PALETTE == 0
+int main(int argc , char** argv) {
+
  	if (argc < 2) {
 		fprintf(stderr, "[ERROR] no input provided\n");
 		exit(1);	
@@ -628,21 +632,39 @@ int main(int argc , char** argv) {
 		fprintf(stderr, "[ERROR] file not able to load\n");
 		exit(1);
 	}
+	
+	int resized_width = 40;
+	int resized_height = height*resized_width/width;
 
-	for (int y=0; y< height; ++y) {
-		for (int x=0; x< width; ++x) {
-			uint32_t pixel = pixels[y*width + x];
+	uint32_t* resized_pixels = malloc(sizeof(uint32_t)*resized_width*resized_height);
+	assert(resized_pixels != NULL);
+
+	stbir_resize_uint8((const unsigned char*)pixels, width, height, sizeof(uint32_t)*width, (unsigned char*)resized_pixels, resized_width, resized_height, sizeof(uint32_t)*resized_width, 4);
+
+
+	for (int i=0; i<256; ++i) {
+		rgb_to_hsl(rgb256[i][0],rgb256[i][1],rgb256[i][2],&hsl256[i][0],&hsl256[i][1],&hsl256[i][2]);
+	}
+
+	for (int y=0; y<resized_height; ++y) {
+		for (int x=0; x<resized_width; ++x) {
+			uint32_t pixel = resized_pixels[y*resized_width + x];
 			int r = (pixel >> 8*0) & 0xff;	
 			int g = (pixel >> 8*1) & 0xff;	
 			int b = (pixel >> 8*2) & 0xff;	
+			int a = (pixel >> 8*3) & 0xff;
+			// some pixels have zero alpha but garbage rbg
+			r = a*r/255;
+			g = a*g/255;
+			b = a*b/255;
 			int h, s, l;
 			rgb_to_hsl(r, g, b, &h, &s, &l);
-			printf("\e[48;5;%dm ", find_ansi_index_by_hsl(h, s, l));
+			printf("\e[48;5;%dm  ", find_ansi_index_by_hsl(h, s, l));
 		}
 		printf("\e[0m\n");
 	}
 
-#else
+#if 0
 	for (int r=0;r<5;r++) {
 		for (int g=0;g<5;g++) {	
 			for (int b=0;b<5;b++) {
@@ -652,7 +674,7 @@ int main(int argc , char** argv) {
 		}
 	}
 #endif
-	
+
 	return 0;
 }
 
