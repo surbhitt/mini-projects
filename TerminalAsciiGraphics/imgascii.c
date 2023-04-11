@@ -4,7 +4,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "header/stb_image.h"
 
-#define SCALE_DOWN_FAC 5
+#define SCALE_DOWN_FAC 10 
 #define PIXEL_R(color) (((color)&0x000000ff)>>(8*0))
 #define PIXEL_G(color) (((color)&0x0000ff00)>>(8*1))
 #define PIXEL_B(color) (((color)&0x00ff0000)>>(8*2))
@@ -64,6 +64,7 @@ uint32_t *scaled_down(uint32_t *pixels, int height, int width) {
 	return pixels_tr;
 }
 
+char table[] = " .':o*#@";
 size_t n = sizeof(table) - 1;
 
 // changes the pixel to ascii char
