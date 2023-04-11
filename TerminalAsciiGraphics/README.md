@@ -7,7 +7,7 @@
 
 An attempt to render graphics on terminal using ascii characters, creating high quality ascii art.  
 
-#### COMPILE 
+### COMPILE 
 
 ```shell
 gcc imgascii.c -o img -lm
