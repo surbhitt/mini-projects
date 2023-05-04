@@ -1,0 +1,18 @@
+
+
+LifeCycle hooks
+    can be only used in class components not in stateless functional components
+    components go through phases the following are the phases
+    - Mount
+        the instance of a component is created and inserted into the DOM, 
+        react will call some automatic methods these are the lifecycle hooks; the followiing
+        . constructor
+        . render
+        . componentDidMount
+    - Update
+        the state of the component will change
+        . render
+        . componenntDidUpdate
+    - Unmount
+        the component is removed from the DOM
+        .componentWillUnmount   
