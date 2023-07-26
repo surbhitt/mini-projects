@@ -633,7 +633,7 @@ int main(int argc , char** argv) {
 		exit(1);
 	}
 	
-	int resized_width = 40;
+	int resized_width = 50;
 	int resized_height = height*resized_width/width;
 
 	uint32_t* resized_pixels = malloc(sizeof(uint32_t)*resized_width*resized_height);

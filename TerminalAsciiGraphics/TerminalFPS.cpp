@@ -1,6 +1,7 @@
 // TerminalFPS.cpp : This file contains the 'main' function. 
 
 #include <iostream>
+# if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
 #include <Windows.h>
 #include <chrono>
 #include <vector>
@@ -198,4 +199,4 @@ int main()
     return 0;
 
 }
-
+#endif

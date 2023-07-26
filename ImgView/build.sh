@@ -1,6 +1,6 @@
 #!/bin/bash
 #debug mode (enabled): set -xe
-cc -o imgview imgview.c -lm
+cc -o imgview.out imgview.c -lm
 
 if [[ $? -eq 0 ]]; then
 	printf "\e[48;5;23m[BUILD SUCCESSFUL]\e[0m\n"
