@@ -7,11 +7,10 @@
 #define WIDTH 80
 #define HEIGHT 40
 #define FPS 20
-#define RADIUS WIDTH/8.0f
-#define GRAVITY 200.0f
+#define RADIUS WIDTH/16.0f
+#define GRAVITY 100.0f
 // have to scale time too acc to the fps
 #define DT 1.0f/FPS
-#define DAMPER 0.70f
 
 typedef struct {
     float x, y;
@@ -74,8 +73,8 @@ void reset_cursor(void) {
 }
 
 int main(void){
-    vec pos = {-RADIUS, -RADIUS};
-    vec vel = {0.0f, 50.0f}; // due to the inversion of the widht and height
+    vec pos = {-RADIUS, WIDTH / 2.0f};
+    vec vel = {0.0f, 0.0f}; // due to the inversion of the widht and height
     vec gravity = {GRAVITY, 0.0f}; 
     vec dt = {DT,DT};
     while (true) {
@@ -86,11 +85,7 @@ int main(void){
         pos = vec_add(pos, vec_mul(vel, dt));
         if (pos.x > HEIGHT - RADIUS) { 
             pos.x = HEIGHT - RADIUS;
-            vel.x *= -DAMPER; 
-        }
-        if (pos.y >= WIDTH + RADIUS + RADIUS*0.5f) {
-            pos.x=-RADIUS; pos.y=-RADIUS;
-            vel.x=0.0f; vel.y=50.0f; 
+            vel.x *= -1.0; 
         }
         usleep(1000*1000 / FPS); 
         reset_cursor();
