@@ -39,9 +39,9 @@ int main(void) {
         BeginDrawing();
         ClearBackground(bgcolor);
         DrawCircleV(center, rad, RED);
-        for (int i=0; i<KNOTS; ++i) {
-            DrawCircleV(*(knotsAt+i), rad, RED);
-        }
+        /* for (int i=0; i<KNOTS; ++i) { */
+        /*     DrawCircleV(*(knotsAt+i), rad, RED); */
+        /* } */
         mouse.x = GetMouseX();
         mouse.y = GetMouseY();
         cursorOnCircle = checkIfCursorOnHead(center, rad, mouse);
