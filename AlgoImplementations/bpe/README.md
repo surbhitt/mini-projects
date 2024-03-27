@@ -6,7 +6,7 @@ break down rare words into those tokens
 
 [ref](https://towardsdatascience.com/byte-pair-encoding-subword-based-tokenization-algorithm-77828a70bee0)
 
-> Algorithm 
+**Algorithm** 
 
 (basic bpe)
 
@@ -17,7 +17,7 @@ break down rare words into those tokens
 - iterate until token/iteration limit is reached
 
 
-> To implement
+**To implement**
 
 - terminal symbol
 - encoding and decoding
