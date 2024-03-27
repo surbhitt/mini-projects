@@ -1,6 +1,6 @@
 ## BYTE PAIR ENCODING
 
-BPE is a type of sub word tokenisation. It can be useful for compression.
+BPE is a type of sub word tokenisation. It can be useful for compression. 
 Goal is to represent most frequently occuring charsets with tokens and
 break down rare words into those tokens
 
@@ -8,9 +8,20 @@ break down rare words into those tokens
 
 > Algorithm 
 
-- pretokenisation, space based, add somekind of terminal symbol to identify end of token
- - create char count mapping from the tokens in the step above, with the terminal symbol having the highest occurence = no. of tokens  
- - for every pair of chars starting from the most freq chars add most freq occuring pair to table 256 + cur, for chars being merged subtract the count of common occ
- - repeat until limit of tokens/iterations is reached, cleanup table remove 0 cnt char
- - encoding
- - decoding
+(basic bpe)
+
+- convert input to a int[], where every char becomes its ascii_val (ids)
+- instantiate a vocab of size 256 covering all the 256 ascii vals (vocab)
+- find the 2 top most freq in vocab and merge them and add as a new key in vocab
+- replace all occurence of the pair in the input
+- iterate until token/iteration limit is reached
+
+
+> To implement
+
+- terminal symbol
+- encoding and decoding
+
+ **RUN**
+
+ `$ go run main.go`
