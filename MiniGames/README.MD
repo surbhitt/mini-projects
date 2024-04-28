@@ -11,3 +11,11 @@ A simple pong game written in python using the turtle library.
 A tetris game for the terminal written in C++.
 
 - [ ] TODO: Add graphics. 
+
+
+Rewrite in js using P5js
+
+- pong 
+- tetris
+- dino
+- flappy bird

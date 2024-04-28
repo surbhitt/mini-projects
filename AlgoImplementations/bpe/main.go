@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-// returns a map with char pair in int form as key and cnt of their occ as val 
+// returns a map with char pair in int form as key and cnt of their occ as val
 func pair_freq_count(ids []int) map[[2]int]int {
 	pfc := make(map[[2]int]int)
 	for i := 1; i < len(ids); i++ {
@@ -20,7 +20,6 @@ func pair_freq_count(ids []int) map[[2]int]int {
 	}
 	return pfc
 }
-
 
 // replaces all the occ of the pair with the new index val resulting in compression
 func merge(ids []int, mx_freq_p [2]int, new_idx int) []int {
