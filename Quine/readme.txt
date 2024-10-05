@@ -6,3 +6,9 @@ Uses the escaper.cpp helper to generate a formatted string output of the source 
 
 >> q.py
 One liner python quine
+
+Usage
+
+$ make escaper
+# copy the output and replace the s var with the it
+$ make 
